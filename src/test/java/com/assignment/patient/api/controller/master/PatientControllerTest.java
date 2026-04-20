@@ -108,9 +108,20 @@ class PatientControllerTest {
 	@Test
 	void getPatientByIdWhenPatientDoesNotExistShouldReturnNotFound() throws Exception {
 
-		when(patientApplicationService.getPatientById(1L)).thenThrow(new RuntimeException("Patient not found"));
+		Long patientId = 1L;
+		String errorMessage = "Patient not found";
 
-		mockMvc.perform(get(PATH + "/1")).andExpect(status().isNotFound());
+		when(patientApplicationService.getPatientById(patientId))
+				.thenThrow(new RuntimeException(errorMessage));
+
+		mockMvc.perform(get(PATH + "/" + patientId))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.title").value("Business Logic Error"))
+				.andExpect(jsonPath("$.detail").value(errorMessage))
+				.andExpect(jsonPath("$.status").value(400))
+
+				.andExpect(jsonPath("$.errors.error").value(errorMessage));
+
 	}
 
 	@Test
@@ -184,12 +195,19 @@ class PatientControllerTest {
 	@Test
 	void updatePatientWithInvalidPatientObjectShouldReturnNotFound() throws Exception {
 
-		when(patientApplicationService.updatePatient(eq(1L), any(PatientDTO.class)))
-				.thenThrow(new RuntimeException("Patient does not exists:" + 1L));
+		Long patientId = 1L;
+		String expectedErrorMessage = "Patient does not exists:" + patientId;
 
-		mockMvc.perform(put(PATH + "/1").contentType(CONTENT_TYPE).content(objectMapper.writeValueAsString(patientDTO)))
-				.andExpect(status().isNotFound());
+		when(patientApplicationService.updatePatient(eq(patientId), any(PatientDTO.class)))
+				.thenThrow(new RuntimeException(expectedErrorMessage));
 
+		mockMvc.perform(put(PATH + "/" + patientId)
+						.contentType(CONTENT_TYPE)
+						.content(objectMapper.writeValueAsString(patientDTO)))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.title").value("Business Logic Error"))
+				.andExpect(jsonPath("$.detail").value(expectedErrorMessage))
+				.andExpect(jsonPath("$.errors.error").value(expectedErrorMessage));
 	}
 
 	@Test
@@ -203,10 +221,18 @@ class PatientControllerTest {
 	@Test
 	void deletePatientWithNonExistingPatientShouldReturnNotFound() throws Exception {
 
-		doThrow(new RuntimeException("Patient does not exists:" + 1L)).when(patientApplicationService).deletePatient(1L);
+		Long patientId = 1L;
+		String expectedErrorMessage = "Patient does not exists:" + patientId;
 
-		mockMvc.perform(delete(PATH + "/1")).andExpect(status().isNotFound());
+		doThrow(new RuntimeException(expectedErrorMessage))
+				.when(patientApplicationService).deletePatient(patientId);
+
+		mockMvc.perform(delete(PATH + "/" + patientId))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.title").value("Business Logic Error"))
+				.andExpect(jsonPath("$.detail").value(expectedErrorMessage))
+				.andExpect(jsonPath("$.instance").value(PATH + "/" + patientId))
+				.andExpect(jsonPath("$.errors.error").value(expectedErrorMessage));
 	}
-
 
 }

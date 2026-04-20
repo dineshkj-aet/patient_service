@@ -80,7 +80,7 @@ public class PatientApplicationService {
 		logger.debug("createPatient starting: patient={}", patient);
 
 		if (patientService.existsByEmail(patient.getEmail())) {
-			throw new RuntimeException("Patient with code already exists");
+			throw new RuntimeException("Patient with the email already exists");
 		}
 		return DomainToDtoTransformer.transform(patientService.save(DtoToDomainTransformer.transform(patient)));
 	}

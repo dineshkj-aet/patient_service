@@ -1,6 +1,7 @@
 package com.assignment.patient.api.controller.master.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -13,7 +14,7 @@ import lombok.*;
 @Schema(description = "Patient Data Transfer Object")
 public class PatientDTO {
 
-	@Schema(description = "Patient ID", example = "1")
+	@Schema(description = "Patient ID",accessMode = Schema.AccessMode.READ_ONLY, example = "1")
 	private Long id;
 
 	@Schema(description = "First name", example = "John")
@@ -52,6 +53,7 @@ public class PatientDTO {
 	@Schema(description = "Email", example = "john.doe@gmail.com")
 	@NotBlank(message = "Email is required")
 	@Size(max = 50, message = "Email cannot exceed 50 characters")
+	@Email(message = "Invalid email format")
 	private String email;
 
 }
