@@ -16,7 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+/**
+ * REST controller for managing Patients in the system.
+ * Provides endpoints for CRUD operations on Patient entities.
+ */
 @Tag(name = "Patient", description = "Patient management APIs")
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +30,15 @@ public class PatientController {
 
 	private final PatientApplicationService patientApplicationService;
 
-
+	/*
+	 * Endpoint to retrieve a paginated list of patients with sorting options.
+	 *
+	 * @param page      the page number to retrieve (default is 0)
+	 * @param size      the number of records per page (default is 10)
+	 * @param sortBy    the field to sort by (default is "id")
+	 * @param direction the sort direction, either "asc" or "desc" (default is "asc")
+	 * @return a ResponseEntity containing a Page of PatientDTOs or an appropriate HTTP status
+	 */
 	@Operation(summary = "Get all Patients", description = "Retrieve a paginated list of patients with sorting options")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200",
@@ -52,6 +63,12 @@ public class PatientController {
 		return ResponseEntity.ok(patients);
 	}
 
+	/*
+	 * Endpoint to retrieve a patient by their unique ID.
+	 *
+	 * @param id the unique ID of the patient to retrieve
+	 * @return a ResponseEntity containing the PatientDTO if found, or an appropriate HTTP status
+	 */
 	@Operation(summary = "Get Patient by ID", description = "Retrieve a patient by their unique ID")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Patient retrieved successfully",
@@ -71,6 +88,12 @@ public class PatientController {
 		}
 	}
 
+	/*
+	 * Endpoint to create a new patient with the provided details.
+	 *
+	 * @param patientDTO the PatientDTO containing the details of the patient to create
+	 * @return a ResponseEntity containing the created PatientDTO or an appropriate HTTP status
+	 */
 	@Operation(summary = "Create a new Patient", description = "Create a new patient with the provided details")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Patient created successfully",
@@ -90,6 +113,13 @@ public class PatientController {
 		}
 	}
 
+	/*
+	 * Endpoint to update an existing patient's details by their unique ID.
+	 *
+	 * @param id         the unique ID of the patient to update
+	 * @param patientDTO the PatientDTO containing the updated details of the patient
+	 * @return a ResponseEntity containing the updated PatientDTO if successful, or an appropriate HTTP status
+	 */
 	@Operation(summary = "Update an existing Patient", description = "Update the details of an existing patient by their ID")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Patient updated successfully",
@@ -111,6 +141,12 @@ public class PatientController {
 		}
 	}
 
+	/*
+	 * Endpoint to delete an existing patient by their unique ID.
+	 *
+	 * @param id the unique ID of the patient to delete
+	 * @return a ResponseEntity with no content if deletion is successful, or an appropriate HTTP status
+	 */
 	@Operation(summary = "Delete a Patient", description = "Delete an existing patient by their ID")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "Patient deleted successfully"),
