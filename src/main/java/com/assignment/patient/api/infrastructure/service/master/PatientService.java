@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+/**
+ * Service class for managing patients server side business logic implementations. This service acts as a bridge between the application layer and the domain layer,
+ * handling business logic and transformations between domain entities and DTOs.
+ */
 @Service
 @Transactional
 @AllArgsConstructor
@@ -23,8 +27,17 @@ public class PatientService {
 
 	private final PatientRepository patientRepository;
 
+	/**
+	 * Retrieves a paginated list of patients, with optional sorting.
+	 *
+	 * @param page      the page number to retrieve (0-based index)
+	 * @param size      the number of records per page
+	 * @param sortBy    the field to sort by (e.g., "firstName", "email")
+	 * @param direction the sort direction ("asc" for ascending, "desc" for descending)
+	 * @return a paginated list of patients
+	 */
 	@Transactional(readOnly = true)
-	public Page<Patient> getAllPatients(int page, int size, String sortBy, String direction) {
+	public Page<Patient> fetchAllPatients(int page, int size, String sortBy, String direction) {
 
 		logger.debug("getAllPatients starting: page={}, size={}, sortBy={}, direction={}", page, size, sortBy, direction);
 
@@ -39,19 +52,42 @@ public class PatientService {
 		return patientRepository.findAll(pageable);
 	}
 
+	/**
+	 * Retrieves a patient by their unique identifier.
+	 *
+	 * @param id the unique identifier of the patient
+	 * @return an Optional containing the patient if found, or empty if not found
+	 */
 	@Transactional(readOnly = true)
 	public Optional<Patient> findById(Long id) {
 		return patientRepository.findById(id);
 	}
 
+	/**
+	 * Saves a new patient record to the database.
+	 *
+	 * @param patient the patient entity to be saved
+	 * @return the saved patient entity
+	 */
 	public Patient save(Patient patient) {
 		return patientRepository.save(patient);
 	}
 
+	/**
+	 * Deletes a patient record by its unique identifier.
+	 *
+	 * @param id the unique identifier of the patient to be deleted
+	 */
 	public void deleteById(Long id) {
 		patientRepository.deleteById(id);
 	}
 
+	/**
+	 * Checks if a patient with the given email already exists in the database.
+	 *
+	 * @param email the email address to check for existence
+	 * @return true if a patient with the given email exists, false otherwise
+	 */
 	@Transactional(readOnly = true)
 	public boolean existsByEmail(String email) {
 		return patientRepository.existsByEmail(email);
