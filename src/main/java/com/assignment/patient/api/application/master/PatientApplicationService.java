@@ -97,12 +97,12 @@ public class PatientApplicationService {
 
 		logger.debug("updatePatient starting: id={}, patient={}", id, patient);
 
-		Patient update = patientService.update(id, DtoToDomainTransformer.transform(patient));
-		if (ObjectUtils.isEmpty(update)) {
+		Patient updatedPatient = patientService.update(id, DtoToDomainTransformer.transform(patient));
+		if (ObjectUtils.isEmpty(updatedPatient)) {
 			logger.debug("updatePatient end: No patient found with id={}", id);
 			throw new RuntimeException("Patient not found");
 		}
-		return DomainToDtoTransformer.transform(update);
+		return DomainToDtoTransformer.transform(updatedPatient);
 	}
 
 	/**

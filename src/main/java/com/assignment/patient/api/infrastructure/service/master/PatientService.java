@@ -109,6 +109,6 @@ public class PatientService {
 					existing.setEmail(patient.getEmail());
 					return patientRepository.save(existing);
 				})
-				.orElseThrow(() -> new RuntimeException("Patient not found with id: " + id));
+				.orElseThrow(() -> new RuntimeException("Patient does not exists: " + id));
 	}
 }
