@@ -10,7 +10,7 @@ import org.springframework.util.ObjectUtils;
 public class DomainToDtoTransformer {
 
 	/**
-	 * Transforms a Patient domain object into a PatientDTO.
+	 * Transforms the Patient domain object into a PatientDTO.
 	 * @param patient the Patient domain object to transform
 	 * @return a PatientDTO containing the data from the Patient domain object
 	 */

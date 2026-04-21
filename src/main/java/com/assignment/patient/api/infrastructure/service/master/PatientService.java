@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Service class for managing patients server side business logic implementations. This service acts as a bridge between the application layer and the domain layer,
- * handling business logic and transformations between domain entities and DTOs.
+ * the PatientService eService class for managing patients server side business logic implementations. This service acts as a bridge between the application layer and the domain layer,
+ * handling business logic and transformations.
  */
 @Service
 @Transactional
@@ -28,7 +28,7 @@ public class PatientService {
 	private final PatientRepository patientRepository;
 
 	/**
-	 * Retrieves a paginated list of patients, with optional sorting.
+	 * Fetch the  paginated list of patients, with given page, size, sortby and sort direction.
 	 *
 	 * @param page      the page number to retrieve (0-based index)
 	 * @param size      the number of records per page
@@ -53,7 +53,7 @@ public class PatientService {
 	}
 
 	/**
-	 * Retrieves a patient by their unique identifier.
+	 * Retrieves a patient by their id(primary key).
 	 *
 	 * @param id the unique identifier of the patient
 	 * @return an Optional containing the patient if found, or empty if not found
@@ -74,7 +74,7 @@ public class PatientService {
 	}
 
 	/**
-	 * Deletes a patient record by its unique identifier.
+	 * Deletes a patient record by patient id (primary key id).
 	 *
 	 * @param id the unique identifier of the patient to be deleted
 	 */
@@ -83,7 +83,7 @@ public class PatientService {
 	}
 
 	/**
-	 * Checks if a patient with the given email already exists in the database.
+	 * Checks and update the patient record in database, if patient record not available, return with RunTimeException..
 	 *
 	 * @param email the email address to check for existence
 	 * @return true if a patient with the given email exists, false otherwise

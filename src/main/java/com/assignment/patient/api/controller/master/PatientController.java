@@ -17,8 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * REST controller for managing Patients in the system.
- * Provides endpoints for CRUD operations on Patient entities.
+ * The PatientController provide REST end points for CRUD operations on the patient entity
  */
 @Tag(name = "Patient", description = "Patient management APIs")
 @RestController
@@ -31,7 +30,7 @@ public class PatientController {
 	private final PatientApplicationService patientApplicationService;
 
 	/*
-	 * Endpoint to retrieve a paginated list of patients with sorting options.
+	 * The patient bulk retrival endpoint with pagination , sorting and ordering.
 	 *
 	 * @param page      the page number to retrieve (default is 0)
 	 * @param size      the number of records per page (default is 10)
@@ -64,7 +63,7 @@ public class PatientController {
 	}
 
 	/*
-	 * Endpoint to retrieve a patient by their unique ID.
+	 * The get patient by id endpoint to retrieve the patient details by the patient id
 	 *
 	 * @param id the unique ID of the patient to retrieve
 	 * @return a ResponseEntity containing the PatientDTO if found, or an appropriate HTTP status
@@ -87,7 +86,7 @@ public class PatientController {
 	}
 
 	/*
-	 * Endpoint to create a new patient with the provided details.
+	 * The Patient creation endpoint.
 	 *
 	 * @param patientDTO the PatientDTO containing the details of the patient to create
 	 * @return a ResponseEntity containing the created PatientDTO or an appropriate HTTP status
@@ -110,7 +109,7 @@ public class PatientController {
 	}
 
 	/*
-	 * Endpoint to update an existing patient's details by their unique ID.
+	 * The update the patient by patient id endpoint.
 	 *
 	 * @param id         the unique ID of the patient to update
 	 * @param patientDTO the PatientDTO containing the updated details of the patient
@@ -136,7 +135,7 @@ public class PatientController {
 	}
 
 	/*
-	 * Endpoint to delete an existing patient by their unique ID.
+	 * The delete patient by id endpoint.
 	 *
 	 * @param id the unique ID of the patient to delete
 	 * @return a ResponseEntity with no content if deletion is successful, or an appropriate HTTP status

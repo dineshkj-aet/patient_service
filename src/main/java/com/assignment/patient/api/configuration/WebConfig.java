@@ -10,6 +10,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableSpringDataWebSupport(pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 public class WebConfig {
 
+	/**
+	 * The Cross Origin configuration for the entier application handles here.
+	 *
+	 * The allowedOrigin section can append the origins to be allowed access the patient RESET API
+	 * the allowedMethods section can append the HTTP methods to be allowed access the patient REST API
+	 * the allowedHeaders section can append the headers to be allowed access the patient REST API
+	 *
+	 * @return a WebMvcConfigurer that defines CORS mappings
+	 */
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
