@@ -14,7 +14,7 @@ import org.springframework.util.ObjectUtils;
 
 /**
  * Application service for managing patients. This service acts as a bridge between the controller layer and the service layer,
- * handling business logic between domain entities and DTOs.
+ * handling business logic between domain entities and DTOs and act as adaptor between Domain and DTO with adapting the objects.
  */
 @Component
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class PatientApplicationService {
 	private final PatientService patientService;
 
 	/**
-	 * Retrieves a paginated list of patients, with optional sorting.
+	 * Patient detail bulk retrieval with given page, size sortby and sort direction.
 	 *
 	 * @param page      the page number to retrieve (0-based index)
 	 * @param size      the number of records per page
@@ -50,7 +50,7 @@ public class PatientApplicationService {
 	}
 
 	/**
-	 * Retrieves a patient by their unique identifier.
+	 * Retrieves a patient by patient id.
 	 *
 	 * @param id the unique identifier of the patient
 	 * @return the PatientDTO corresponding to the given id
@@ -60,8 +60,7 @@ public class PatientApplicationService {
 
 		logger.debug("getPatientById starting: id={}", id);
 
-		Patient patient = patientService.findById(id)
-				.orElseThrow(() -> new RuntimeException("Patient not found"));
+		Patient patient = patientService.findById(id).orElseThrow(() -> new RuntimeException("Patient not found"));
 
 		logger.debug("getPatientById end: patient={}", patient);
 
@@ -69,7 +68,7 @@ public class PatientApplicationService {
 	}
 
 	/**
-	 * Creates a new patient record.
+	 * Create and save new patient record in database and return th saved patient record.
 	 *
 	 * @param patient the PatientDTO containing the details of the patient to be created
 	 * @return the created PatientDTO
@@ -86,7 +85,7 @@ public class PatientApplicationService {
 	}
 
 	/**
-	 * Updates an existing patient record.
+	 * Update the existing patient record by patient id and return the updated patient record
 	 *
 	 * @param id      the unique identifier of the patient to be updated
 	 * @param patient the PatientDTO containing the updated details of the patient
@@ -106,7 +105,7 @@ public class PatientApplicationService {
 	}
 
 	/**
-	 * Deletes a patient record by its unique identifier.
+	 * Permanantly delete the patient record from database
 	 *
 	 * @param id the unique identifier of the patient to be deleted
 	 */
