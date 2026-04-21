@@ -16,7 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+/**
+ * The PatientController provide REST end points for CRUD operations on the patient entity
+ */
 @Tag(name = "Patient", description = "Patient management APIs")
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +29,15 @@ public class PatientController {
 
 	private final PatientApplicationService patientApplicationService;
 
-
+	/*
+	 * The patient bulk retrival endpoint with pagination , sorting and ordering.
+	 *
+	 * @param page      the page number to retrieve (default is 0)
+	 * @param size      the number of records per page (default is 10)
+	 * @param sortBy    the field to sort by (default is "id")
+	 * @param direction the sort direction, either "asc" or "desc" (default is "asc")
+	 * @return a ResponseEntity containing a Page of PatientDTOs or an appropriate HTTP status
+	 */
 	@Operation(summary = "Get all Patients", description = "Retrieve a paginated list of patients with sorting options")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200",
@@ -52,6 +62,12 @@ public class PatientController {
 		return ResponseEntity.ok(patients);
 	}
 
+	/*
+	 * The get patient by id endpoint to retrieve the patient details by the patient id
+	 *
+	 * @param id the unique ID of the patient to retrieve
+	 * @return a ResponseEntity containing the PatientDTO if found, or an appropriate HTTP status
+	 */
 	@Operation(summary = "Get Patient by ID", description = "Retrieve a patient by their unique ID")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Patient retrieved successfully",
@@ -63,14 +79,18 @@ public class PatientController {
 	@GetMapping("/{id}")
 	public ResponseEntity<PatientDTO> getPatientById(
 			@Parameter(description = "ID of the patient to retrieve", required = true, example = "1") @PathVariable Long id) {
-		try {
-			PatientDTO patient = patientApplicationService.getPatientById(id);
-			return ResponseEntity.ok(patient);
-		} catch (RuntimeException e) {
-			return ResponseEntity.notFound().build();
-		}
+
+		PatientDTO patient = patientApplicationService.getPatientById(id);
+		return ResponseEntity.ok(patient);
+
 	}
 
+	/*
+	 * The Patient creation endpoint.
+	 *
+	 * @param patientDTO the PatientDTO containing the details of the patient to create
+	 * @return a ResponseEntity containing the created PatientDTO or an appropriate HTTP status
+	 */
 	@Operation(summary = "Create a new Patient", description = "Create a new patient with the provided details")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Patient created successfully",
@@ -82,14 +102,19 @@ public class PatientController {
 	@PostMapping
 	public ResponseEntity<PatientDTO> createPatient(
 			@Parameter(description = "Patient payload to be created", required = true) @Valid @RequestBody PatientDTO patientDTO) {
-		try {
-			PatientDTO created = patientApplicationService.createPatient(patientDTO);
-			return ResponseEntity.status(HttpStatus.CREATED).body(created);
-		} catch (RuntimeException e) {
-			return ResponseEntity.badRequest().build();
-		}
+
+		PatientDTO created = patientApplicationService.createPatient(patientDTO);
+		return ResponseEntity.status(HttpStatus.CREATED).body(created);
+
 	}
 
+	/*
+	 * The update the patient by patient id endpoint.
+	 *
+	 * @param id         the unique ID of the patient to update
+	 * @param patientDTO the PatientDTO containing the updated details of the patient
+	 * @return a ResponseEntity containing the updated PatientDTO if successful, or an appropriate HTTP status
+	 */
 	@Operation(summary = "Update an existing Patient", description = "Update the details of an existing patient by their ID")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Patient updated successfully",
@@ -103,14 +128,18 @@ public class PatientController {
 	public ResponseEntity<PatientDTO> updatePatient(
 			@Parameter(description = "The id of the patient to be updated", required = true) @PathVariable Long id,
 			@Parameter(description = "Patient payload to be updated", required = true) @Valid @RequestBody PatientDTO patientDTO) {
-		try {
-			PatientDTO updated = patientApplicationService.updatePatient(id, patientDTO);
-			return ResponseEntity.ok(updated);
-		} catch (RuntimeException e) {
-			return ResponseEntity.notFound().build();
-		}
+
+		PatientDTO updated = patientApplicationService.updatePatient(id, patientDTO);
+		return ResponseEntity.ok(updated);
+
 	}
 
+	/*
+	 * The delete patient by id endpoint.
+	 *
+	 * @param id the unique ID of the patient to delete
+	 * @return a ResponseEntity with no content if deletion is successful, or an appropriate HTTP status
+	 */
 	@Operation(summary = "Delete a Patient", description = "Delete an existing patient by their ID")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "Patient deleted successfully"),
@@ -119,12 +148,10 @@ public class PatientController {
 	})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deletePatient(@Parameter(description = "The id of the patient to be deleted", required = true) @PathVariable Long id) {
-		try {
-			patientApplicationService.deletePatient(id);
-			return ResponseEntity.noContent().build();
-		} catch (RuntimeException e) {
-			return ResponseEntity.notFound().build();
-		}
+
+		patientApplicationService.deletePatient(id);
+		return ResponseEntity.noContent().build();
+
 	}
 
 }
