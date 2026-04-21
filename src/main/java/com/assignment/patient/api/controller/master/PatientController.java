@@ -80,12 +80,10 @@ public class PatientController {
 	@GetMapping("/{id}")
 	public ResponseEntity<PatientDTO> getPatientById(
 			@Parameter(description = "ID of the patient to retrieve", required = true, example = "1") @PathVariable Long id) {
-		try {
-			PatientDTO patient = patientApplicationService.getPatientById(id);
-			return ResponseEntity.ok(patient);
-		} catch (RuntimeException e) {
-			return ResponseEntity.notFound().build();
-		}
+
+		PatientDTO patient = patientApplicationService.getPatientById(id);
+		return ResponseEntity.ok(patient);
+
 	}
 
 	/*
@@ -105,12 +103,10 @@ public class PatientController {
 	@PostMapping
 	public ResponseEntity<PatientDTO> createPatient(
 			@Parameter(description = "Patient payload to be created", required = true) @Valid @RequestBody PatientDTO patientDTO) {
-		try {
-			PatientDTO created = patientApplicationService.createPatient(patientDTO);
-			return ResponseEntity.status(HttpStatus.CREATED).body(created);
-		} catch (RuntimeException e) {
-			return ResponseEntity.badRequest().build();
-		}
+
+		PatientDTO created = patientApplicationService.createPatient(patientDTO);
+		return ResponseEntity.status(HttpStatus.CREATED).body(created);
+
 	}
 
 	/*
@@ -133,12 +129,10 @@ public class PatientController {
 	public ResponseEntity<PatientDTO> updatePatient(
 			@Parameter(description = "The id of the patient to be updated", required = true) @PathVariable Long id,
 			@Parameter(description = "Patient payload to be updated", required = true) @Valid @RequestBody PatientDTO patientDTO) {
-		try {
-			PatientDTO updated = patientApplicationService.updatePatient(id, patientDTO);
-			return ResponseEntity.ok(updated);
-		} catch (RuntimeException e) {
-			return ResponseEntity.notFound().build();
-		}
+
+		PatientDTO updated = patientApplicationService.updatePatient(id, patientDTO);
+		return ResponseEntity.ok(updated);
+
 	}
 
 	/*
@@ -155,12 +149,10 @@ public class PatientController {
 	})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deletePatient(@Parameter(description = "The id of the patient to be deleted", required = true) @PathVariable Long id) {
-		try {
-			patientApplicationService.deletePatient(id);
-			return ResponseEntity.noContent().build();
-		} catch (RuntimeException e) {
-			return ResponseEntity.notFound().build();
-		}
+
+		patientApplicationService.deletePatient(id);
+		return ResponseEntity.noContent().build();
+
 	}
 
 }

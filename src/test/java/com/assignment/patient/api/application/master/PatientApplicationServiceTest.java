@@ -149,12 +149,16 @@ class PatientApplicationServiceTest {
 	@Test
 	void createPatientWhenEmailExistsShouldThrowException() {
 
-		when(patientService.existsByEmail("dinesh.jayasinghe@gmail.com")).thenReturn(true);
+		String existingEmail = "dinesh.jayasinghe@gmail.com";
+		patientDTO.setEmail(existingEmail);
+
+		when(patientService.existsByEmail(existingEmail)).thenReturn(true);
 
 		assertThatThrownBy(() -> patientApplicationService.createPatient(patientDTO))
 				.isInstanceOf(RuntimeException.class)
-				.hasMessage("Patient with code already exists");
-		verify(patientService).existsByEmail("dinesh.jayasinghe@gmail.com");
+				.hasMessage("Patient with the email already exists");
+
+		verify(patientService).existsByEmail(existingEmail);
 
 	}
 
