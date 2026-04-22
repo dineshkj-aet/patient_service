@@ -22,3 +22,21 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS master.patient
     OWNER TO postgres;
+```
+
+
+### 📋 Patient id Sequence
+```sql
+CREATE SEQUENCE IF NOT EXISTS master.patient_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;
+
+ALTER SEQUENCE master.patient_id_seq
+    OWNED BY master.patient.id;
+
+ALTER SEQUENCE master.patient_id_seq
+    OWNER TO postgres;
+```
